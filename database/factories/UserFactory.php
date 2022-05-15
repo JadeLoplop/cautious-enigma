@@ -17,11 +17,27 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $array = ['Mr', 'Mrs', 'Ms'];
+
+        $randomPrefix = $array[array_rand($array)];
+
+        if($randomPrefix == 'Mr'){
+            $gender = 'male';
+        } else {
+            $gender = 'female';
+        }
+
         return [
-            'name' => $this->faker->name(),
+            'prefixname' => $randomPrefix,
+            'firstname' => $this->faker->firstName($gender),
+            'middlename' => $this->faker->lastName(),
+            'lastname' => $this->faker->lastName(),
+            'suffixname' => null,
+            'username' => $this->faker->userName(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'type' => 'administrator',
             'remember_token' => Str::random(10),
         ];
     }

@@ -36,6 +36,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::macro('softDeletes', function () {
+            Route::get('trashed', ['\App\Http\Controllers\UserController', 'trashed'])->name('trashed');
+            Route::patch('{user}/restore', ['\App\Http\Controllers\UserController', 'restore'])->name('restore');
+            Route::delete('{user}/delete',  ['\App\Http\Controllers\UserController', 'delete'])->name('delete');
+        });
     }
 
     /**
