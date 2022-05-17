@@ -10,7 +10,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -19,6 +20,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    @yield('page-styles')
 </head>
 <body>
     <div id="app">
@@ -41,7 +43,9 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <div class="mt-2">
+                            @auth
                             Welcome Back, {{ auth()->user()->type === 'administrator' ? 'Admin' : 'User' }}
+                            @endauth
                         </div>
                         @guest
                             @if (Route::has('login'))
@@ -80,9 +84,13 @@
         </nav>
 
         <main class="py-4">
+            @auth
             @include('layouts.inside_navbar')
+            @include('components.flash_message.index')
+            @endauth
             @yield('content')
         </main>
     </div>
+    @yield('page-scritps')
 </body>
 </html>

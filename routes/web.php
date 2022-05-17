@@ -24,11 +24,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware('auth')->group(function () {
     Route::prefix('users')->as('users.')->group(function(){
         Route::get('/', ['\App\Http\Controllers\UserController', 'index'])->name('index'); //listing
-        Route::post('/', ['\App\Http\Controllers\UserController', 'create'])->name('create'); //create
+        Route::get('create', ['\App\Http\Controllers\UserController', 'create'])->name('create'); //create
+        Route::post('create', ['\App\Http\Controllers\UserController', 'store'])->name('store'); //store
         Route::get('{user}/show', ['\App\Http\Controllers\UserController', 'show'])->name('show'); //show details
         Route::get('{user}/edit', ['\App\Http\Controllers\UserController', 'edit'])->name('edit'); //edit page
         Route::patch('{user}/update', ['\App\Http\Controllers\UserController', 'update'])->name('update'); //update
-        Route::get('{user}/destroy', ['\App\Http\Controllers\UserController', 'destroy'])->name('destroy'); //destroy a user/ removing from the database
+        Route::delete('{user}/destroy', ['\App\Http\Controllers\UserController', 'destroy'])->name('destroy'); //destroy a user/ removing from the database
         Route::softDeletes();
         // Route::get('trashed', ['\App\Http\Controllers\UserController', 'trashed'])->name('trashed'); //trashed page for users who got soft deleted
         // Route::get('restore', ['\App\Http\Controllers\UserController', 'restore'])->name('restore'); // restore user who got soft deleted

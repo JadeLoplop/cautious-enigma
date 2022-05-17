@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,7 +28,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'photo',
         'type',
     ];
 
@@ -52,17 +52,20 @@ class User extends Authenticatable
 
     public function getAvatarAttribute()
     {
+        if ($this->photo == null) {
+            return asset('img/default_avatar.png');
+        }
         return $this->photo;
     }
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . " " . $this->last_name;
+        return $this->firstname . " " . $this->getMiddleinitialAttribute() ." " . $this->lastname;
     }
 
     public function getMiddleinitialAttribute()
     {
-        return substr($this->middlename, 0, 1);
+        return substr($this->middlename, 0, 1) . "." ;
     }
 
 }
